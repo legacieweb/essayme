@@ -17,10 +17,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/uploads", express.static(path.join(__dirname, "uploads"))); // Serve profile images
 
-// MongoDB Connection
-mongoose.connect("mongodb://localhost:27017/essayme", {
-});
-
 // 🔹 Configure Nodemailer (Using Gmail as sender)
 const transporter = nodemailer.createTransport({
   service: "gmail",
