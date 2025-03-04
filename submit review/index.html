@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Submit a Review - EssayMe</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 font-sans">
+  <header class="bg-white shadow-md py-4">
+    <div class="container mx-auto px-6 flex justify-between">
+      <a href="https://essayme.iyonicorp.com/" class="text-2xl font-bold text-blue-600">Essay<span class="text-gray-800">Me</span></a>
+      <a href="https://essayme.iyonicorp.com/" class="text-gray-700 hover:text-blue-500">Home</a>
+    </div>
+  </header>
+
+  <section class="py-16 bg-white">
+    <div class="container mx-auto px-6">
+      <h1 class="text-4xl font-bold text-gray-800 text-center">Submit a Review</h1>
+      <p class="mt-4 text-lg text-gray-600 text-center">We value your feedback! Please fill out the form below.</p>
+
+      <div class="mt-10 bg-white p-6 rounded-lg shadow-lg">
+        <form id="review-form">
+          <div class="mb-4">
+            <label for="name" class="block text-gray-700 font-semibold">Your Name</label>
+            <input type="text" id="name" name="name" class="w-full p-2 border rounded" readonly>
+          </div>
+          <div class="mb-4">
+            <label for="type" class="block text-gray-700 font-semibold">Assignment Type</label>
+            <input type="text" id="type" name="type" class="w-full p-2 border rounded" readonly>
+          </div>
+          <div class="mb-4">
+            <label for="rating" class="block text-gray-700 font-semibold">Rating</label>
+            <select id="rating" name="rating" class="w-full p-2 border rounded">
+              <option value="5">5 Stars</option>
+              <option value="4">4 Stars</option>
+              <option value="3">3 Stars</option>
+              <option value="2">2 Stars</option>
+              <option value="1">1 Star</option>
+            </select>
+          </div>
+          <div class="mb-4">
+            <label for="review" class="block text-gray-700 font-semibold">Your Review</label>
+            <textarea id="review" name="review" rows="4" class="w-full p-2 border rounded"></textarea>
+          </div>
+          <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded shadow hover:bg-blue-500">Submit Review</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Extract query parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const name = urlParams.get('name');
+    const type = urlParams.get('type');
+
+    // Populate form fields
+    document.getElementById('name').value = name || 'Anonymous';
+    document.getElementById('type').value = type || 'General';
+  </script>
+  <script>
+    (function() {
+        // 🔥 Disable Right-Click
+    document.addEventListener("contextmenu", function(event) {
+      event.preventDefault();
+    });
+
+    // 🔒 Block F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+    document.addEventListener("keydown", function(event) {
+      if (event.keyCode == 123) { // F12
+        event.preventDefault();
+      }
+      if (event.ctrlKey && event.shiftKey && (event.keyCode == 73 || event.keyCode == 74)) { // Ctrl+Shift+I / J
+        event.preventDefault();
+      }
+      if (event.ctrlKey && event.keyCode == 85) { // Ctrl+U
+        event.preventDefault();
+      }
+    });
+
+    // 🚨 Detect DevTools Opened
+    function detectDevTools() {
+      let devtoolsOpen = false;
+
+      const before = new Date();
+      debugger;
+      const after = new Date();
+
+      if (after - before > 100) {
+        devtoolsOpen = true;
+      }
+
+      if (devtoolsOpen) {
+        document.body.innerHTML = `<div style="text-align:center; font-size:24px; font-weight:bold; color:red; margin-top:50px;">
+          🚨 ERROR: DevTools Detected! Please close DevTools to access this website. 🚨
+        </div>`;
+      }
+    }
+
+    setInterval(detectDevTools, 1000);
+        // ❌ Prevent XSS Attacks (Sanitize Input Fields)
+        document.querySelectorAll("input, textarea").forEach((element) => {
+      element.addEventListener("input", function() {
+        this.value = this.value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      });
+    });
+  
+      // 🌍 Detect VPN or Proxy Usage
+      async function detectVPN() {
+        try {
+          const response = await fetch("https://vpnapi.io/api/?key=564239f58fd7438d8cbbbb1c0960ff07");
+          const data = await response.json();
+  
+          if (data.security.vpn || data.security.proxy || data.security.tor) {
+            document.body.innerHTML = `<div style="text-align:center; font-size:24px; font-weight:bold; color:red; margin-top:50px;">
+              🚨 ERROR: VPN/Proxy Detected! Please disable VPN to access this website. 🚨
+            </div>`;
+          }
+        } catch (error) {
+          console.log("VPN detection error:", error);
+        }
+      }
+  
+      detectVPN();
+    })();
+  </script>
+  
+</body>
+</html>
